@@ -34,10 +34,12 @@ func handleConnection(c net.Conn) {
 	for {
 		bytes, err := reader.ReadBytes(byte('\n'))
 		if err != nil {
-			if err != io.EOF {
-				log.Fatal(err)
+			if err == io.EOF {
+				log.Println("Client disconnected:", c.RemoteAddr())
 				return
 			}
+			log.Println("Read error:", err)
+			return
 		}
 
 		request := string(bytes)
@@ -46,7 +48,7 @@ func handleConnection(c net.Conn) {
 
 		_, err = c.Write([]byte(line))
 		if err != nil {
-			log.Fatal(err)
+			log.Println("Write error:", err)
 			return
 		}
 	}
