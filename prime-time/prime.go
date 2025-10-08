@@ -58,7 +58,7 @@ func getValidRequest(request string) (Request, error) {
 
 func getProcessedResponse(req Request) Response {
 	var isPrime bool
-	if req.Number == math.Trunc(req.Number) {
+	if req.Number == math.Trunc(req.Number) && req.Number >= 0 {
 		num := int(req.Number)
 		isPrime = num%2 == 0
 	} else {
