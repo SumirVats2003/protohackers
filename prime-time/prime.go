@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"errors"
+	"log"
 	"math"
 )
 
@@ -13,7 +14,7 @@ type Request struct {
 
 type Response struct {
 	Method  string `json:"method"`
-	IsPrime bool   `json:"isPrime"`
+	IsPrime bool   `json:"prime"`
 }
 
 type MalformedResponse struct {
@@ -21,6 +22,7 @@ type MalformedResponse struct {
 }
 
 func PrimeHandler(request string) []byte {
+	log.Println("handling request: ", request)
 	req, err := getValidRequest(request)
 	if err != nil {
 		mr := MalformedResponse{"hello"}

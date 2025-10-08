@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"log"
 	"net"
 )
@@ -20,6 +21,7 @@ func main() {
 			log.Fatal(err)
 		}
 
+		log.Println("--------------------------Handling new Connection---------------------------")
 		go handleConnection(conn)
 	}
 }
@@ -32,11 +34,17 @@ func handleConnection(c net.Conn) {
 		bytes, err := reader.ReadBytes(byte('\n'))
 		if err != nil {
 			log.Fatal(err)
-			continue
+			return
 		}
 
 		request := string(bytes)
 		response := PrimeHandler(request)
-		c.Write(response)
+		line := fmt.Sprintf("%s\n", response)
+
+		_, err = c.Write([]byte(line))
+		if err != nil {
+			log.Fatal(err)
+			return
+		}
 	}
 }
