@@ -5,6 +5,8 @@ import (
 	"errors"
 	"log"
 	"math"
+
+	"modernc.org/mathutil"
 )
 
 type Request struct {
@@ -37,6 +39,8 @@ func PrimeHandler(request string) []byte {
 		res, _ := json.Marshal(mr)
 		return []byte(res)
 	}
+
+	log.Println("returned response: ", jsonResponse)
 	return []byte(jsonResponse)
 }
 
@@ -59,8 +63,8 @@ func getValidRequest(request string) (Request, error) {
 func getProcessedResponse(req Request) Response {
 	var isPrime bool
 	if req.Number == math.Trunc(req.Number) && req.Number >= 0 {
-		num := int(req.Number)
-		isPrime = num%2 == 0
+		num := int64(req.Number)
+		isPrime = mathutil.IsPrime(num)
 	} else {
 		isPrime = false
 	}
