@@ -5,6 +5,7 @@ import (
 	"errors"
 	"log"
 	"math"
+	"reflect"
 
 	"modernc.org/mathutil"
 )
@@ -52,6 +53,11 @@ func getValidRequest(request string) (Request, error) {
 	number := requestObject["number"]
 
 	if method == nil || method != "isPrime" || number == nil {
+		return Request{}, errors.New("Malformed Request")
+	}
+
+	numType := reflect.ValueOf(number).Kind()
+	if numType != reflect.Int && numType != reflect.Float64 {
 		return Request{}, errors.New("Malformed Request")
 	}
 
