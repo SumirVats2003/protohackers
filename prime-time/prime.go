@@ -40,7 +40,7 @@ func PrimeHandler(request string) []byte {
 		return []byte(res)
 	}
 
-	log.Println("returned response: ", jsonResponse)
+	log.Println("returned response: ", string(jsonResponse))
 	return []byte(jsonResponse)
 }
 
@@ -63,7 +63,7 @@ func getValidRequest(request string) (Request, error) {
 func getProcessedResponse(req Request) Response {
 	var isPrime bool
 	if req.Number == math.Trunc(req.Number) && req.Number >= 0 {
-		num := int64(req.Number)
+		num := uint32(req.Number)
 		isPrime = mathutil.IsPrime(num)
 	} else {
 		isPrime = false
