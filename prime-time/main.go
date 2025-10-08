@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"io"
 	"log"
 	"net"
 )
@@ -33,8 +34,10 @@ func handleConnection(c net.Conn) {
 	for {
 		bytes, err := reader.ReadBytes(byte('\n'))
 		if err != nil {
-			log.Fatal(err)
-			return
+			if err != io.EOF {
+				log.Fatal(err)
+				return
+			}
 		}
 
 		request := string(bytes)
