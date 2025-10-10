@@ -2,15 +2,25 @@ package internal
 
 import (
 	"encoding/binary"
+	"log"
+	"math"
+	"net"
 )
 
-func ProcessRequest(command string, bytes []byte) {
+func ProcessRequest(command string, bytes []byte, conn net.Conn) {
 	a, b := parseCommand(bytes)
 	dataStore := InitDataStore()
 	if command == "I" {
+		log.Printf("writing at timestamp %v price %v\n", a, b)
 		dataStore.Insert(a, b)
 	} else {
-		dataStore.GetAvg(a, b)
+		result := dataStore.GetAvg(a, b)
+		log.Printf("got average from timestamp %v to %v value %v\n", a, b, result)
+
+		bits := math.Float64bits(result)
+		byteArrAlt := make([]byte, 8)
+		binary.BigEndian.PutUint64(byteArrAlt, bits)
+		conn.Write(byteArrAlt)
 	}
 }
 

@@ -35,6 +35,6 @@ func HandleConnection(c net.Conn) {
 			return
 		}
 
-		ProcessRequest(command, bytes)
+		ProcessRequest(command, bytes, c)
 	}
 }
