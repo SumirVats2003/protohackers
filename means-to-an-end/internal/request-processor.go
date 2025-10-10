@@ -10,7 +10,7 @@ func ProcessRequest(command string, bytes []byte) {
 	if command == "I" {
 		dataStore.Insert(a, b)
 	} else {
-		GetAvg(a, b)
+		dataStore.GetAvg(a, b)
 	}
 }
 
