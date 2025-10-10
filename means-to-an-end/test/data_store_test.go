@@ -96,6 +96,26 @@ func TestDataStore(t *testing.T) {
 
 		assertFloatEquals(t, actualAvg, avg)
 	})
+
+	t.Run("test example case from the real server", func(t *testing.T) {
+		dataStore := internal.InitDataStore()
+
+		lowerLimit := int32(12288)
+		upperLimit := int32(16384)
+		timeStamps := []int32{12345, 12346, 12347, 40960}
+		prices := []int32{101, 100, 102, 5}
+
+		sum := int32(0)
+		for i := range timeStamps {
+			if timeStamps[i] <= upperLimit && timeStamps[i] >= lowerLimit {
+				sum += insertAndGetValue(dataStore, timeStamps[i], prices[i])
+			}
+		}
+		avg := float64(sum) / float64(3)
+		actualAvg := dataStore.GetAvg(lowerLimit, upperLimit)
+
+		assertFloatEquals(t, actualAvg, avg)
+	})
 }
 
 func insertAndGetValue(dataStore *internal.DataStore, timeStamp int32, price int32) int32 {
