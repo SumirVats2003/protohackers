@@ -15,7 +15,7 @@ func ProcessRequest(command string, bytes []byte, conn net.Conn) {
 		dataStore.Insert(a, b)
 	} else {
 		result := dataStore.GetAvg(a, b)
-		log.Printf("got average from timestamp %v to %v value %v\n", a, b, result)
+		log.Printf("got average from timestamp %v to %v value %f\n", a, b, result)
 
 		bits := math.Float64bits(result)
 		byteArrAlt := make([]byte, 8)
