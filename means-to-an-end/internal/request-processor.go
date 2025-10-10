@@ -2,12 +2,16 @@ package internal
 
 import (
 	"encoding/binary"
-	"log"
 )
 
 func ProcessRequest(command string, bytes []byte) {
 	a, b := parseCommand(bytes)
-	log.Println(command, a, b)
+	dataStore := InitDataStore()
+	if command == "I" {
+		dataStore.Insert(a, b)
+	} else {
+		GetAvg(a, b)
+	}
 }
 
 func parseCommand(bytes []byte) (int32, int32) {
