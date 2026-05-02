@@ -3,6 +3,8 @@ package main
 import (
 	"log"
 	"net"
+
+	"github.com/SumirVats2003/protohackers/unusual-db/internal"
 )
 
 func main() {
@@ -23,5 +25,8 @@ func main() {
 		}
 
 		log.Printf("Received %d bytes from %s: %s\n", n, remoteAddr, string(buf[:n]))
+		internal.HandleRequest(conn, internal.InitDataStore(), string(buf[:n]))
+
+		conn.Close()
 	}
 }
