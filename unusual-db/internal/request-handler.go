@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func HandleRequest(c *net.UDPConn, dataStore DataStore, request string) {
+func HandleRequest(c *net.UDPConn, addr *net.UDPAddr, dataStore DataStore, request string) {
 	key, value, success := strings.Cut(request, "=")
 
 	if success {
@@ -21,7 +21,7 @@ func HandleRequest(c *net.UDPConn, dataStore DataStore, request string) {
 
 		if ok {
 			log.Printf("writing %v to the connection", value)
-			c.Write([]byte(value))
+			c.WriteToUDP([]byte(value), addr)
 		}
 	}
 }

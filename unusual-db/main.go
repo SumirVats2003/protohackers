@@ -26,6 +26,6 @@ func main() {
 		}
 
 		log.Printf("Received %d bytes from %s: %s\n", n, remoteAddr, string(buf[:n]))
-		internal.HandleRequest(conn, dataStore, string(buf[:n]))
+		internal.HandleRequest(conn, remoteAddr, dataStore, string(buf[:n]))
 	}
 }
