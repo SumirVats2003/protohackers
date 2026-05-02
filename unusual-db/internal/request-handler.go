@@ -20,8 +20,13 @@ func HandleRequest(c *net.UDPConn, addr *net.UDPAddr, dataStore DataStore, reque
 		value, ok := dataStore.Store[key]
 
 		if ok {
-			log.Printf("writing %v to the connection", value)
-			c.WriteToUDP([]byte(value), addr)
+			log.Printf("writing %v to %s", value, addr.String())
+			n, err := c.WriteToUDP([]byte(value), addr)
+			if err != nil {
+				log.Printf("WriteToUDP error: %v", err)
+			} else {
+				log.Printf("sent %d bytes to %s", n, addr.String())
+			}
 		}
 	}
 }
