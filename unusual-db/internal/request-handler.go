@@ -1,6 +1,7 @@
 package internal
 
 import (
+	"log"
 	"net"
 	"strings"
 )
@@ -14,6 +15,7 @@ func HandleRequest(c *net.UDPConn, dataStore DataStore, request string) {
 		}
 		dataStore.Store[key] = value
 	} else {
+		log.Printf("writing %v to the connection", dataStore.Store[key])
 		c.Write([]byte(dataStore.Store[key]))
 	}
 }
