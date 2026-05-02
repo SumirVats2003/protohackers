@@ -19,14 +19,18 @@ func HandleRequest(c *net.UDPConn, addr *net.UDPAddr, dataStore DataStore, reque
 	} else {
 		value, ok := dataStore.Store[key]
 
+		var response string
 		if ok {
-			log.Printf("writing %v to %s", value, addr.String())
-			n, err := c.WriteToUDP([]byte(value), addr)
-			if err != nil {
-				log.Printf("WriteToUDP error: %v", err)
-			} else {
-				log.Printf("sent %d bytes to %s", n, addr.String())
-			}
+			response = key + "=" + value
+		} else {
+			response = key
+		}
+		log.Printf("writing %q to %s", response, addr.String())
+		n, err := c.WriteToUDP([]byte(response), addr)
+		if err != nil {
+			log.Printf("WriteToUDP error: %v", err)
+		} else {
+			log.Printf("sent %d bytes to %s", n, addr.String())
 		}
 	}
 }
