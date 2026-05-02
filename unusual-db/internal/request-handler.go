@@ -13,7 +13,9 @@ func HandleRequest(c *net.UDPConn, dataStore DataStore, request string) {
 		if key == "version" {
 			return
 		}
+		log.Printf("inserting %v : %v to dataStore", key, value)
 		dataStore.Store[key] = value
+		log.Printf("%v : %v", key, dataStore.Store[key])
 	} else {
 		value, ok := dataStore.Store[key]
 
