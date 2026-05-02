@@ -15,7 +15,11 @@ func HandleRequest(c *net.UDPConn, dataStore DataStore, request string) {
 		}
 		dataStore.Store[key] = value
 	} else {
-		log.Printf("writing %v to the connection", dataStore.Store[key])
-		c.Write([]byte(dataStore.Store[key]))
+		value, ok := dataStore.Store[key]
+
+		if ok {
+			log.Printf("writing %v to the connection", value)
+			c.Write([]byte(value))
+		}
 	}
 }
