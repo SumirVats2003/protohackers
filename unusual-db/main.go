@@ -16,6 +16,7 @@ func main() {
 	log.Println("Listening on port :8080")
 
 	buf := make([]byte, 1024)
+	dataStore := internal.InitDataStore()
 
 	for {
 		n, remoteAddr, err := conn.ReadFromUDP(buf)
@@ -25,6 +26,6 @@ func main() {
 		}
 
 		log.Printf("Received %d bytes from %s: %s\n", n, remoteAddr, string(buf[:n]))
-		internal.HandleRequest(conn, internal.InitDataStore(), string(buf[:n]))
+		internal.HandleRequest(conn, dataStore, string(buf[:n]))
 	}
 }
